@@ -1,0 +1,9 @@
+data:
+  input_file: data/raw/조사 자료 정규화.xlsx
+  normalized_file: data/interim/normalized_data.xlsx
+  weight_excel_file: data/outputs/weight_result.xlsx
+  weight_json_file: data/outputs/weight_result.json
+
+weighting:
+  method: mutual_info
+  normalize_weights: true
