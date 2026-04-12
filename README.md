@@ -1,2 +1,15 @@
-# tunnel-method-recommender
-Tunnel construction method recommendation system based on normalized case data, weighting, and LLM explanation
+# Tunnel Method Recommender
+
+터널 시공 사례 데이터를 정규화하고,
+정답데이터를 기반으로 변수 가중치를 계산한 뒤,
+향후 공법 추천 및 LLM 설명 생성까지 확장하기 위한 프로젝트.
+
+## 현재 목표
+1. 정답데이터 정규화
+2. 가중치 계산
+3. 가중치 산정 결과 엑셀 생성
+
+## 향후 목표
+1. 입력값 기반 공법 추천
+2. RAG + LLM 설명 생성
+3. 결과 엑셀 자동 생성
