@@ -79,7 +79,7 @@ def main() -> None:
         vector_store_name=args.vector_store_name,
         top_k_methods=args.top_k_methods,
         max_search_results=args.max_search_results,
-        reuse_existing_vector_store=not args.no_reuse_vector_store,
+        reuse_existing_vector_store= False,
     )
 
     artifacts = reporter.run()

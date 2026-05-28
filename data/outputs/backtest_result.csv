@@ -1,0 +1,57 @@
+﻿index,actual_method,predicted_1st_method,predicted_1st_score,predicted_1st_raw_score,predicted_1st_judgement,predicted_2nd_method,predicted_2nd_score,predicted_2nd_raw_score,predicted_2nd_judgement,predicted_3rd_method,predicted_3rd_score,predicted_3rd_raw_score,predicted_3rd_judgement,correct,reason
+0,Slurry TBM,Slurry TBM,85,0.3027,적합,NATM,70,0.0878,가능,EPB TBM,70,0.406,가능,True,1순위 정답
+1,NATM,EPB TBM,85,0.6248,적합,NATM,50,0.0369,추천하지 않음,개착식,50,0.0266,추천하지 않음,False,오답
+2,침매식,침매식,95,0.8461,적합,NATM,85,0.3793,적합,Slurry TBM,50,0.064,추천하지 않음,True,1순위 정답
+3,Slurry TBM,EPB TBM,95,0.8348,적합,NATM,70,0.103,가능,Slurry TBM,70,0.2633,가능,True,3순위 가능 인정
+4,개착식,EPB TBM,70,0.1616,가능,개착식,70,0.0394,가능,NATM,50,0.0542,추천하지 않음,True,2순위 인정
+5,NATM,NATM,95,0.914,적합,개착식,30,0.0213,추천하지 않음,Slurry TBM,10,0.0342,추천하지 않음,True,1순위 정답
+6,EPB TBM,NATM,70,0.1098,가능,Slurry TBM,70,0.22,가능,EPB TBM,50,0.0944,추천하지 않음,False,오답
+7,NATM,NATM,85,0.1854,적합,Slurry TBM,70,0.145,가능,EPB TBM,50,0.1019,추천하지 않음,True,1순위 정답
+8,개착식,침매식,95,0.8734,적합,개착식,95,0.5785,적합,NATM,50,0.0531,추천하지 않음,True,2순위 인정
+9,Slurry TBM,Slurry TBM,85,0.321,적합,EPB TBM,50,0.0777,추천하지 않음,NATM,10,0.0305,추천하지 않음,True,1순위 정답
+10,침매식,침매식,85,0.604,적합,NATM,70,0.0776,가능,EPB TBM,50,0.132,추천하지 않음,True,1순위 정답
+11,NATM,EPB TBM,70,0.3371,가능,개착식,50,0.0232,추천하지 않음,NATM,10,0.0182,추천하지 않음,False,오답
+12,침매식,침매식,85,0.6047,적합,NATM,50,0.0622,추천하지 않음,EPB TBM,50,0.0536,추천하지 않음,True,1순위 정답
+13,침매식,침매식,95,0.5993,적합,NATM,50,0.0499,추천하지 않음,Slurry TBM,30,0.0522,추천하지 않음,True,1순위 정답
+14,EPB TBM,EPB TBM,95,0.8677,적합,Slurry TBM,85,0.3721,적합,NATM,10,0.0325,추천하지 않음,True,1순위 정답
+15,EPB TBM,EPB TBM,70,0.4019,가능,개착식,70,0.0519,가능,NATM,50,0.0486,추천하지 않음,True,1순위 정답
+16,EPB TBM,EPB TBM,95,0.879,적합,개착식,30,0.0168,추천하지 않음,Slurry TBM,30,0.0573,추천하지 않음,True,1순위 정답
+17,EPB TBM,EPB TBM,95,0.768,적합,개착식,85,0.4344,적합,Slurry TBM,30,0.0473,추천하지 않음,True,1순위 정답
+18,EPB TBM,EPB TBM,95,0.8683,적합,개착식,30,0.0178,추천하지 않음,Slurry TBM,30,0.0542,추천하지 않음,True,1순위 정답
+19,Slurry TBM,EPB TBM,85,0.761,적합,Slurry TBM,85,0.3288,적합,NATM,50,0.0473,추천하지 않음,True,2순위 인정
+20,Slurry TBM,Slurry TBM,95,0.7424,적합,NATM,70,0.0653,가능,개착식,30,0.0158,추천하지 않음,True,1순위 정답
+21,Slurry TBM,Slurry TBM,95,0.7143,적합,NATM,70,0.0692,가능,개착식,30,0.0158,추천하지 않음,True,1순위 정답
+22,Slurry TBM,Slurry TBM,95,0.602,적합,EPB TBM,70,0.1302,가능,NATM,50,0.0557,추천하지 않음,True,1순위 정답
+23,Slurry TBM,Slurry TBM,95,0.6617,적합,NATM,30,0.0379,추천하지 않음,개착식,30,0.0157,추천하지 않음,True,1순위 정답
+24,NATM,NATM,95,0.9172,적합,Slurry TBM,70,0.108,가능,EPB TBM,50,0.0752,추천하지 않음,True,1순위 정답
+25,NATM,NATM,85,0.1529,적합,Slurry TBM,50,0.0918,추천하지 않음,EPB TBM,10,0.0191,추천하지 않음,True,1순위 정답
+26,NATM,NATM,95,0.9241,적합,개착식,50,0.0232,추천하지 않음,Slurry TBM,30,0.0366,추천하지 않음,True,1순위 정답
+27,NATM,NATM,95,0.9176,적합,개착식,50,0.0214,추천하지 않음,Slurry TBM,30,0.0411,추천하지 않음,True,1순위 정답
+28,NATM,NATM,95,0.925,적합,개착식,50,0.0204,추천하지 않음,Slurry TBM,30,0.0481,추천하지 않음,True,1순위 정답
+29,침매식,침매식,95,0.7573,적합,NATM,50,0.0624,추천하지 않음,EPB TBM,50,0.0594,추천하지 않음,True,1순위 정답
+30,침매식,침매식,95,0.8045,적합,NATM,85,0.1315,적합,EPB TBM,50,0.0728,추천하지 않음,True,1순위 정답
+31,침매식,침매식,95,0.7526,적합,NATM,85,0.1591,적합,Slurry TBM,30,0.0579,추천하지 않음,True,1순위 정답
+32,침매식,침매식,95,0.7975,적합,NATM,50,0.0419,추천하지 않음,Slurry TBM,50,0.0888,추천하지 않음,True,1순위 정답
+33,침매식,침매식,95,0.7028,적합,NATM,85,0.1975,적합,개착식,85,0.5483,적합,True,1순위 정답
+34,개착식,개착식,95,0.8392,적합,NATM,70,0.0756,가능,EPB TBM,30,0.0413,추천하지 않음,True,1순위 정답
+35,개착식,개착식,95,0.8124,적합,EPB TBM,50,0.0652,추천하지 않음,NATM,30,0.0322,추천하지 않음,True,1순위 정답
+36,개착식,개착식,85,0.3474,적합,NATM,70,0.0805,가능,EPB TBM,50,0.0707,추천하지 않음,True,1순위 정답
+37,개착식,개착식,95,0.489,적합,NATM,70,0.0805,가능,EPB TBM,50,0.0686,추천하지 않음,True,1순위 정답
+38,개착식,개착식,95,0.7705,적합,EPB TBM,70,0.1475,가능,NATM,10,0.0202,추천하지 않음,True,1순위 정답
+39,EPB TBM,EPB TBM,85,0.5723,적합,개착식,70,0.0855,가능,NATM,30,0.0399,추천하지 않음,True,1순위 정답
+40,EPB TBM,EPB TBM,85,0.7037,적합,개착식,85,0.4862,적합,NATM,30,0.0321,추천하지 않음,True,1순위 정답
+41,EPB TBM,EPB TBM,85,0.6496,적합,Slurry TBM,70,0.1222,가능,개착식,30,0.0162,추천하지 않음,True,1순위 정답
+42,EPB TBM,Slurry TBM,95,0.655,적합,개착식,70,0.0886,가능,EPB TBM,70,0.2554,가능,True,3순위 가능 인정
+43,Slurry TBM,EPB TBM,85,0.7132,적합,NATM,30,0.0406,추천하지 않음,Slurry TBM,30,0.0442,추천하지 않음,False,오답
+44,개착식,개착식,95,0.5737,적합,EPB TBM,70,0.3592,가능,Slurry TBM,50,0.073,추천하지 않음,True,1순위 정답
+45,Slurry TBM,EPB TBM,70,0.259,가능,NATM,50,0.0517,추천하지 않음,개착식,50,0.0255,추천하지 않음,False,오답
+46,Slurry TBM,Slurry TBM,95,0.5735,적합,개착식,85,0.3311,적합,NATM,50,0.0485,추천하지 않음,True,1순위 정답
+47,개착식,개착식,85,0.2211,적합,NATM,70,0.1109,가능,EPB TBM,70,0.1509,가능,True,1순위 정답
+48,Slurry TBM,Slurry TBM,95,0.6482,적합,개착식,85,0.4283,적합,NATM,70,0.1137,가능,True,1순위 정답
+49,EPB TBM,Slurry TBM,95,0.4338,적합,NATM,50,0.0593,추천하지 않음,EPB TBM,50,0.0799,추천하지 않음,False,오답
+50,EPB TBM,Slurry TBM,95,0.359,적합,EPB TBM,85,0.2253,적합,NATM,70,0.0848,가능,True,2순위 인정
+51,EPB TBM,EPB TBM,95,0.9132,적합,Slurry TBM,70,0.1525,가능,개착식,50,0.0181,추천하지 않음,True,1순위 정답
+52,NATM,Slurry TBM,95,0.4096,적합,EPB TBM,70,0.1598,가능,개착식,50,0.0206,추천하지 않음,False,오답
+53,EPB TBM,NATM,85,0.1325,적합,EPB TBM,85,0.4809,적합,Slurry TBM,70,0.2017,가능,True,2순위 인정
+54,EPB TBM,EPB TBM,95,0.7133,적합,개착식,95,0.8016,적합,Slurry TBM,85,0.3268,적합,True,1순위 정답
+55,EPB TBM,EPB TBM,85,0.6458,적합,개착식,70,0.0803,가능,Slurry TBM,70,0.1026,가능,True,1순위 정답

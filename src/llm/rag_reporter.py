@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 import os
-import time
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -32,8 +31,8 @@ class TunnelRAGReporter:
         project_root: str | Path | None = None,
         vector_store_name: str = "tunnel-method-specs",
         top_k_methods: int = 3,
-        max_search_results: int = 6,
-        reuse_existing_vector_store: bool = True,
+        max_search_results: int = 12,
+        reuse_existing_vector_store: bool = False,
     ) -> None:
         self.client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
         self.model = model
@@ -48,9 +47,6 @@ class TunnelRAGReporter:
 
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
-    # ---------------------------
-    # Public API
-    # ---------------------------
     def run(self) -> ReportArtifacts:
         input_df, result_df = self._load_excel()
         vector_store_id = self._prepare_vector_store()
@@ -70,9 +66,6 @@ class TunnelRAGReporter:
             vector_store_id=vector_store_id,
         )
 
-    # ---------------------------
-    # Excel loading
-    # ---------------------------
     def _load_excel(self) -> tuple[pd.DataFrame, pd.DataFrame]:
         if not self.result_excel_path.exists():
             raise FileNotFoundError(f"result.xlsx 파일을 찾을 수 없습니다: {self.result_excel_path}")
@@ -95,9 +88,6 @@ class TunnelRAGReporter:
         result_df = result_df.sort_values(by="점수(100점 만점)", ascending=False).reset_index(drop=True)
         return input_df, result_df
 
-    # ---------------------------
-    # Vector store preparation
-    # ---------------------------
     def _prepare_vector_store(self) -> str:
         if not self.specs_dir.exists():
             raise FileNotFoundError(f"시방서 텍스트 폴더를 찾을 수 없습니다: {self.specs_dir}")
@@ -142,18 +132,48 @@ class TunnelRAGReporter:
 
             if not getattr(page, "has_next_page", lambda: False)():
                 break
+
             page = page.get_next_page()
             stores = list(getattr(page, "data", []))
 
         return None
 
-    # ---------------------------
-    # Prompt building
-    # ---------------------------
+    def _forced_method_context(self, result_df: pd.DataFrame) -> str:
+        """
+        침매식이 정량 결과 기준 1위 또는 2위일 때만
+        침매공법 관련 txt를 직접 읽어서 prompt에 넣는다.
+        file_search가 침매 문서를 못 잡는 문제를 보완하기 위한 강제 참조 로직.
+        """
+        top2_methods = result_df.head(2)["공법"].astype(str).tolist()
+        should_read_immersed = any("침매" in method for method in top2_methods)
+
+        if not should_read_immersed:
+            return ""
+
+        keywords = ["침매", "KOSHA_C_89", "immersed", "immersion"]
+
+        contexts: list[str] = []
+
+        for path in sorted(self.specs_dir.glob("*.txt")):
+            filename_lower = path.name.lower()
+
+            if not any(keyword.lower() in filename_lower for keyword in keywords):
+                continue
+
+            text = path.read_text(encoding="utf-8", errors="ignore")
+
+            contexts.append(
+                f"[강제 참조 문서: {path.name}]\n"
+                f"{text[:8000]}"
+            )
+
+        return "\n\n".join(contexts)
+
     def _build_prompt(self, *, input_df: pd.DataFrame, result_df: pd.DataFrame) -> str:
         project_conditions = self._project_conditions_text(input_df)
         result_summary = self._result_summary_text(result_df)
         top_methods = result_df.head(self.top_k_methods)["공법"].tolist()
+        forced_context = self._forced_method_context(result_df)
 
         return f"""
 너는 '터널 공법 추천 결과를 해석하는 기술검토 전문가'다.
@@ -161,7 +181,7 @@ class TunnelRAGReporter:
 중요 역할:
 - 정량 점수(result.xlsx)는 이미 계산 완료된 결과이므로, 너는 점수를 다시 계산하지 않는다.
 - 너의 역할은 result.xlsx 결과를 해석하고, 첨부된 터널 기준/시방서 텍스트를 검색하여 근거를 붙이는 것이다.
-- 침매식 관련 직접적인 기준/시방서가 검색되지 않으면, 억지로 있다고 쓰지 말고 '현재 업로드된 문서 기준으로는 직접 근거를 찾지 못했다'고 명확히 적어라.
+- 단, 아래 '강제 참조 문서'가 제공된 경우에는 file_search 검색 결과보다 우선적으로 해당 문서를 검토해야 한다.
 - 문서에 없는 내용은 추정이라고 분명히 밝혀라.
 
 프로젝트 입력조건:
@@ -169,6 +189,9 @@ class TunnelRAGReporter:
 
 정량 결과 요약:
 {result_summary}
+
+침매식 강제 참조 문서:
+{forced_context if forced_context else "해당 없음"}
 
 상위 후보 공법:
 {json.dumps(top_methods, ensure_ascii=False)}
@@ -183,10 +206,11 @@ class TunnelRAGReporter:
 ## 2. 정량 평가 결과 해석
 - 상위 공법 {self.top_k_methods}개를 비교
 - 점수 차이와 판정을 해석
-- 침매식이 1위더라도 근거 문서가 부족하면 그 한계를 명시
+- 침매식이 1위 또는 2위이고 강제 참조 문서가 제공된 경우, 침매공법 근거를 반드시 반영
 
 ## 3. 시방서/기준 기반 검토사항
 - 업로드된 문서에서 실제로 검색한 근거 중심으로 작성
+- 강제 참조 문서가 제공된 경우, 해당 문서 내용을 우선 반영
 - 공법별 설계/시공상 핵심 검토사항 정리
 - 관련 문서명도 함께 언급
 
@@ -199,12 +223,12 @@ class TunnelRAGReporter:
 
 ## 6. 한계
 - 이번 보고서의 한계를 솔직히 작성
-- 특히 침매식 전용 기준이 현재 문서셋에 없으면 반드시 명시
+- 강제 참조 문서가 없거나 검색되지 않은 공법은 문서 근거가 제한적이라고 명시
 
 추가 지침:
 - 표준시방서/설계기준 문구를 길게 복붙하지 말고 요약해서 설명
 - 근거가 있는 경우 파일명 수준으로 출처를 본문에 괄호로 표시
-- 문서 검색 결과를 우선하고, 검색되지 않은 내용은 단정하지 말 것
+- 문서 검색 결과와 강제 참조 문서를 우선하고, 검색되지 않은 내용은 단정하지 말 것
 """.strip()
 
     def _project_conditions_text(self, input_df: pd.DataFrame) -> str:
@@ -226,9 +250,6 @@ class TunnelRAGReporter:
             )
         return "\n".join(lines)
 
-    # ---------------------------
-    # LLM call
-    # ---------------------------
     def _ask_model(self, *, prompt: str, vector_store_id: str) -> Any:
         response = self.client.responses.create(
             model=self.model,
@@ -244,9 +265,6 @@ class TunnelRAGReporter:
         )
         return response
 
-    # ---------------------------
-    # Save outputs
-    # ---------------------------
     def _save_outputs(
         self,
         *,
@@ -286,6 +304,7 @@ class TunnelRAGReporter:
                 text = getattr(result, "text", None)
                 filename = getattr(result, "filename", None)
                 score = getattr(result, "score", None)
+
                 extracted.append(
                     {
                         "filename": filename,
